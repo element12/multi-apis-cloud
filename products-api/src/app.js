@@ -16,23 +16,6 @@ app.get("/health", (_req, res) => res.json({ status: "ok", service: SERVICE }));
 // GET /products
 app.get("/products", (_req, res) => res.json(products));
 
-// GET /products/:id
-app.get("/products/:id", (req, res) => {
-  const p = products.find(x => String(x.id) === String(req.params.id));
-  if (!p) return res.status(404).json({ error: "Product not found" });
-  res.json(p);
-});
-
-// POST /products (simulado)
-app.post("/products", (req, res) => {
-  res.status(201).json({
-    message: "Simulado: se crearía el producto",
-    payload: req.body
-  });
-});
-
-// Ejemplo de comunicación entre servicios (compose crea la red):
-// GET /products/with-users  -> concatena productos con conteo de usuarios (mock)
 app.get("/products/with-users", async (_req, res) => {
   try {
     const r = await fetch(`${USERS_API_URL}/users`);
@@ -45,6 +28,26 @@ app.get("/products/with-users", async (_req, res) => {
     res.status(502).json({ error: "No se pudo consultar users-api", detail: String(e) });
   }
 });
+
+// GET /products/:id
+app.get("/products/:id", (req, res) => {
+  const p = products.find(x => String(x.id) === String(req.params.id));
+  if (!p) return res.status(404).json({ error: "Product not found" });
+  res.json(p);
+});
+
+
+
+// POST /products (simulado)
+app.post("/products", (req, res) => {
+  res.status(201).json({
+    message: "Simulado: se crearía el producto",
+    payload: req.body
+  });
+});
+
+// Ejemplo de comunicación entre servicios (compose crea la red):
+// GET /products/with-users  -> concatena productos con conteo de usuarios (mock)
 
 app.listen(PORT, () => {
   console.log(`✅ ${SERVICE} listening on http://localhost:${PORT}`);
