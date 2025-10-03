@@ -7,6 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 4002;
+const USERS_API_URL = process.env.USERS_API_URL || "http://users-api:4001";
 
 // Health DB
 app.get("/db/health", async (_req, res) => {
@@ -69,9 +70,10 @@ app.delete("/products/:id", async (req, res) => {
 
 app.get("/products/with-users", async (_req, res) => {
   try {
-    const u = await pool.query("SELECT id, name, email FROM users_schema.users ORDER BY id ASC");
+    // const u = await pool.query("SELECT id, name, email FROM users_schema.users ORDER BY id ASC");
+    const u = await fetch(`${USERS_API_URL}/users`);
     const p = await pool.query("SELECT id, name, price FROM products_schema.products ORDER BY id ASC");
-    const users = u.rows;
+    const users = await u.json();
     const products = p.rows;
     res.json({
       products,

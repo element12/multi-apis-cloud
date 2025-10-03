@@ -17,7 +17,7 @@ services:
       - PORT=4002
       - SERVICE_NAME=products-api
       - DATABASE_URL=${DATABASE_URL}
-      - USERS_API_URL=http://users-api:4001
+      - USERS_API_URL=${USERS_API_URL}
     ports:
       - "4002:4002"
     depends_on:
