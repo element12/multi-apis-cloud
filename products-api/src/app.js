@@ -45,7 +45,7 @@ app.put("/products/:id", async (req, res) => {
       "UPDATE products_schema.products SET name = $1, price = $2 WHERE id = $3 RETURNING id, name, price",
       [name, price, id]
     );
-    if (r.rowCount === 0) return res.status(404).json({ error: "user not found" });
+    if (r.rowCount === 0) return res.status(404).json({ error: "product not found" });
     res.json(r.rows[0]);
   } catch (e) {
     res.status(500).json({ error: "update failed", detail: String(e) });
@@ -58,7 +58,7 @@ app.delete("/products/:id", async (req, res) => {
 
   try {
     const r = await pool.query("DELETE FROM products_schema.products WHERE id = $1 RETURNING id", [id]);
-    if (r.rowCount === 0) return res.status(404).json({ error: "user not found" });
+    if (r.rowCount === 0) return res.status(404).json({ error: "product not found" });
     res.json({ deletedId: r.rows[0].id });
   } catch (e) {
     res.status(500).json({ error: "delete failed", detail: String(e) });
@@ -99,7 +99,7 @@ app.get("/products/:id", async (req, res) => {
 
   try {
     const r = await pool.query("SELECT id, name, price FROM products_schema.products WHERE id = $1", [id]);
-    if (r.rowCount === 0) return res.status(404).json({ error: "user not found" });
+    if (r.rowCount === 0) return res.status(404).json({ error: "product not found" });
     res.json(r.rows[0]);
   } catch (e) {
     res.status(500).json({ error: "query failed", detail: String(e) });
