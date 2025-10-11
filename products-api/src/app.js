@@ -18,7 +18,7 @@ app.get("/db/health", async (_req, res) => {
     res.status(500).json({ ok: false, error: String(e) });
   }
 });
-
+  
 // Crear usuario (INSERT real)
 app.post("/products", async (req, res) => {
   const { name, price } = req.body ?? {};
