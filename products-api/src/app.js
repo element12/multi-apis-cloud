@@ -80,7 +80,7 @@ app.get("/products/with-users", async (_req, res) => {
       usersCount: Array.isArray(users) ? users.length : 0
     });
   } catch (e) {
-    res.status(502).json({ error: "No se pudo consultar users-api", detail: String(e) });
+    res.status(502).json({ error: "No se pudo consultar products-api", detail: String(e) });
   }
 });
 
