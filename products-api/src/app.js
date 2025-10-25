@@ -23,7 +23,7 @@ app.get("/db/health", async (_req, res) => {
 app.post("/products", async (req, res) => {
   const { name, price } = req.body ?? {};
   if (!name || !price)
-    return res.status(400).json({ error: "name & price required" });
+    return res.status(400).json({ error: "nombre & price required" });
 
   try {
     const result = await products.insertOne({ name, price });
